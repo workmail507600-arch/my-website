@@ -1440,7 +1440,16 @@ function startUpcomingTimers() {
                 timerElem.parentElement.innerHTML = `<div style="color: #4ade80; font-weight: 600; padding: 8px;">Released / Airing Now</div>`;
                 return;
             }
+// Episode +1
+anime.episode = Number(anime.episode) + 1;
 
+// যদি episode "EP 7" আকারে থাকে
+if (typeof anime.episode === "string") {
+    anime.episode = "EP " + (parseInt(anime.episode.replace(/\D/g, "")) + 1);
+}
+
+// আবার পুরো লিস্ট রেন্ডার করো
+renderUpcomingAnime();
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
