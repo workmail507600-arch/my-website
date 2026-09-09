@@ -955,37 +955,45 @@ function startUpcomingTimers() {
 renderUpcomingAnime();
 startUpcomingTimers();
 
-          // ভারতীয় সময় (IST) অনুযায়ী রিয়েল-টাইমে এপিসোড অটো-আপডেটের কোড
-    function updateLiveEpisodesIST() {
-        const now = new Date();
-        const istOffset = 5.5 * 60 * 60 * 1000; // IST হলো UTC +5:30
-        const utcTime = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
-        const istTime = new Date(utcTime + istOffset);
+          <script>
+    // টাইমার শেষ হওয়া মাত্র সমস্ত অ্যানিমির এপিসোড স্বয়ংক্রিয়ভাবে ১ বাড়িয়ে দেওয়ার কোড
+    function updateAllAnimeEpisodes() {
+        const animeCards = document.querySelectorAll('div');
 
-        const animeItems = document.querySelectorAll('.anime-episode-element');
+        animeCards.forEach(card => {
+            const timerElements = card.querySelectorAll('.text-center, div, span');
+            let isTimerFinished = false;
+            let episodeSpan = null;
 
-        animeItems.forEach(item => {
-            const releaseTimeStr = item.getAttribute('data-release-time'); 
-            const episodeSpan = item.querySelector('.episode-number');
-            
-            if (releaseTimeStr && episodeSpan) {
-                const releaseTime = new Date(releaseTimeStr).getTime();
-                const currentISTTimeMs = istTime.getTime();
-
-                if (currentISTTimeMs >= releaseTime) {
-                    let currentEp = parseInt(episodeSpan.innerText.replace(/\D/g, '')) || 10;
-                    if (!item.hasAttribute('data-updated')) {
-                        episodeSpan.innerText = currentEp + 1;
-                        item.setAttribute('data-updated', 'true');
+            timerElements.forEach(el => {
+                let text = el.innerText.trim();
+                // কাউন্টডাউন টাইমার শেষ হয়ে জিরো (00) হয়ে গেলে
+                if (text === "00" || text === "0") {
+                    if (!card.dataset.episodeUpdated) {
+                        isTimerFinished = true;
                     }
+                }
+                // যেখানে "EP 7" বা এমন কিছু লেখা আছে সেটি খুঁজে বের করা
+                if (text.startsWith("EP ")) {
+                    episodeSpan = el;
+                }
+            });
+
+            // টাইমার শেষ হলে এপিসোড নম্বর ১ বাড়িয়ে দেওয়া
+            if (isTimerFinished && episodeSpan && !card.dataset.episodeUpdated) {
+                let currentText = episodeSpan.innerText.trim();
+                let prefix = currentText.substring(0, 3); // "EP "
+                let epNum = parseInt(currentText.replace(/\D/g, '')) || 0;
+
+                if (epNum > 0) {
+                    let nextEp = epNum + 1;
+                    episodeSpan.innerText = prefix + nextEp; // যেমন EP 7 থেকে EP 8 হয়ে যাবে
+                    card.dataset.episodeUpdated = "true";
                 }
             }
         });
     }
 
-    // প্রতি ১ সেকেন্ড পরপর ইন্ডিয়ান টাইম চেক করবে
-    setInterval(updateLiveEpisodesIST, 1000);
-      
-  </script>
-</body>
-</html>
+    // প্রতি ১ সেকেন্ড পরপর এটি চেক করতে থাকবে
+    setInterval(updateAllAnimeEpisodes, 1000);
+</script>
