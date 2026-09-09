@@ -956,53 +956,28 @@ renderUpcomingAnime();
 startUpcomingTimers();
 
           <script>
-    // নিরাপদ ও নিখুঁত এপিসোড অটো-আপডেটার কোড
-    function updateAllAnimeEpisodesSafely() {
-        // শুধু অ্যানিমে কার্ডগুলোকে টার্গেট করবে, পুরো পেজের div নষ্ট করবে না
-        const animeCards = document.querySelectorAll('.card-bg, [class*="anime"], [class*="schedule"]');
+    // নিরাপদ এনিমে এপিসোড অটো-আপডেটার (যা মূল শিডিউল বা ডাটা মুছবে না)
+    setTimeout(() => {
+        setInterval(() => {
+            const cards = document.querySelectorAll('.card-bg');
+            if (!cards) return;
 
-        if (animeCards.length === 0) return;
-
-        animeCards.forEach(card => {
-            const allElements = card.querySelectorAll('*');
-            let isTimerFinished = false;
-            let episodeSpan = null;
-
-            allElements.forEach(el => {
-                let text = el.innerText ? el.innerText.trim() : "";
-                
-                // যদি টাইমার শেষ হয়ে "00" বা "0" হয়ে যায়
-                if (text === "00" || text === "0") {
-                    if (!card.dataset.episodeUpdated) {
-                        isTimerFinished = true;
+            cards.forEach(card => {
+                // কার্ডের ভেতরের টাইমার এবং এপিসোড টেক্সট ট্র্যাক করা
+                const textContent = card.innerText;
+                if (textContent && textContent.includes("00") && !card.dataset.epUpdated) {
+                    const epSpan = card.querySelector('span, div');
+                    if (epSpan && epSpan.innerText.includes("EP ")) {
+                        let currentEpText = epSpan.innerText;
+                        let epNum = parseInt(currentEpText.replace(/\D/g, '')) || 0;
+                        if (epNum > 0) {
+                            epSpan.innerText = "EP " + (epNum + 1);
+                            card.dataset.epUpdated = "true";
+                        }
                     }
-                }
-                
-                // যদি "EP 7" বা এমন কোনো টেক্সট পাওয়া যায়
-                if (text.startsWith("EP ") || text.startsWith("Episode ")) {
-                    episodeSpan = el;
                 }
             });
-
-            // টাইমার শেষ হলে শুধুমাত্র এপিসোড নম্বর ১ বাড়িয়ে দেবে
-            if (isTimerFinished && episodeSpan && !card.dataset.episodeUpdated) {
-                let currentText = episodeSpan.innerText.trim();
-                let numberPart = parseInt(currentText.replace(/\D/g, '')) || 0;
-
-                if (numberPart > 0) {
-                    let nextEp = numberPart + 1;
-                    // আগের প্রিফিক্স ঠিক রেখে শুধু নম্বরটি আপডেট করবে
-                    if (currentText.startsWith("EP ")) {
-                        episodeSpan.innerText = "EP " + nextEp;
-                    } else {
-                        episodeSpan.innerText = "Episode " + nextEp;
-                    }
-                    card.dataset.episodeUpdated = "true";
-                }
-            }
-        });
-    }
-
-    // প্রতি ১ সেকেন্ড পরপর এটি নীরবে ব্যাকগ্রাউন্ডে চেক করবে
-    setInterval(updateAllAnimeEpisodesSafely, 1000);
+        }, 1000);
+    }, 2000); // পেজ পুরোপুরি লোড হওয়ার দুই সেকেন্ড পর এটি ব্যাকগ্রাউন্ডে কাজ শুরু করবে
+}
 </script>
