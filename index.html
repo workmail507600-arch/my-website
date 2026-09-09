@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Anime Schedule</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #0b121e;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .card-bg {
+      background-color: #121c2d;
+      border: 1px solid #1c2b44;
+    }
+    .timer-cell {
+      background-color: #17243b;
+      border: 1px solid #233554;
+    }
+    .badge-hindi {
+      background-color: #b45309;
+      color: #fef3c7;
+      border: 1px solid #d97706;
+    }
+    .badge-lang {
+      background-color: #1b273d;
+      color: #94a3b8;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .tab-btn.active {
+      background-color: #2563eb;
+      color: #ffffff;
+      border-color: #3b82f6;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    }
+  </style>
+</head>
+<body class="p-3.5 max-w-md mx-auto pb-24 relative">
+
+  <!-- Header -->
+  <header class="text-center my-3">
+    <div class="flex items-center justify-center gap-2 mb-1.5">
+      <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+      </svg>
+      <h1 class="text-2xl font-black tracking-tight text-blue-500">Anime Schedule</h1>
+    </div>
+    <span class="inline-block bg-[#162238] text-xs px-3.5 py-1 rounded-full text-blue-300 font-medium border border-blue-900/50">
+      IST (Indian Standard Time)
+    </span>
+  </header>
+
+  <!-- Share Button -->
+  <div class="my-3">
+    <button onclick="sharePage()" class="w-full bg-[#172338] hover:bg-[#1f2f4c] border border-slate-700/60 py-2.5 rounded-xl text-xs font-semibold text-gray-200 flex items-center justify-center gap-1.5 shadow transition">
+      <span>🔗</span> Share Page
+    </button>
+  </div>
+
+  <!-- Day Selection Tabs -->
+  <div class="my-3">
+    <div class="flex gap-2 overflow-x-auto no-scrollbar py-1 px-0.5" id="dayTabsContainer">
+      <button onclick="selectDay('All')" id="tab-All" class="tab-btn flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-[#131d2e] text-gray-300 border border-slate-700/80 transition">All</button>
+      <button onclick="selectDay('Monday')" id="tab-Monday" class="tab-btn flex-shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#131d2e] text-gray-300 border border-slate-700/80 transition">Mon</button>
+      <button onclick="selectDay('Tuesday')" id="tab-Tuesday" class="tab-btn flex-shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#131d2e] text-gray-300 border border-slate-700/80 transition">Tue</button>
+      <button onclick="selectDay('Wednesday')" id="tab-Wednesday" class="tab-btn flex-shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#131d2e] text-gray-300 border border-slate-700/80 transition">Wed</button>
+      <button onclick="selectDay('Thursday')" id="tab-Thursday" class="tab-btn flex-shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#131d2e] text-gray-300 border border-slate-700/80 transition">Thu</button>
+      <button onclick="selectDay('Friday')" id="tab-Friday" class="tab-btn flex-shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#131d2e] text-gray-300 border border-slate-700/80 transition">Fri</button>
+      <button onclick="selectDay('Saturday')" id="tab-Saturday" class="tab-btn flex-shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#131d2e] text-gray-300 border border-slate-700/80 transition">Sat</button>
+      <button onclick="selectDay('Sunday')" id="tab-Sunday" class="tab-btn flex-shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#131d2e] text-gray-300 border border-slate-700/80 transition">Sun</button>
+    </div>
+  </div>
+
+  <!-- Search Input -->
+  <div class="relative my-3">
+    <input 
+      type="text" 
+      id="searchInput" 
+      placeholder="Search anime by name..." 
+      class="w-full bg-[#131d2e] border border-slate-700/80 text-sm rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition"
+      onkeyup="onSearchChange()"
+    />
+  </div>
+
+  <!-- Section Header -->
+  <div class="card-bg border-l-4 border-orange-500 px-4 py-3 rounded-r-xl font-bold flex items-center justify-between mb-4 text-sm tracking-wide">
+    <div class="flex items-center gap-2">
+      <span>🔥</span>
+      <span id="sectionTitle">Today's Schedule</span>
+    </div>
+    <span id="itemCount" class="text-xs text-blue-400 font-semibold bg-blue-950/80 px-2 py-0.5 rounded-full border border-blue-900">0 shows</span>
+  </div>
+
+  <!-- Anime Container -->
+  <div id="animeContainer" class="space-y-4"></div>
+
+  <div id="emptyMessage" class="hidden text-center py-12 text-gray-400 text-sm">
+    No anime scheduled for this day.
+  </div>
+
+  <!-- Floating Scroll Button -->
+  <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" class="fixed bottom-5 right-5 w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center shadow-xl border border-blue-400/40 z-50">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+    </svg>
+  </button>
+
+  <script>
+    try {
+      if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.ready();
+        if (typeof window.Telegram.WebApp.expand === 'function') {
+          window.Telegram.WebApp.expand();
+        }
+      }
+    } catch (e) {}
+
+    const animeList = [
+      {
+        id: 1,
+        title: "Welcome to Demon School! Iruma-kun",
+        image: "https://i.postimg.cc/fRMnVMNx/l-O6f-Zddb7qy-SMn73wsm7u-S54Xrh.jpg",
+        season: "Season 3",
+        baseEp: 11,
+        languages: ["Hindi", "English", "Japanese"],
+        dayOfWeek: "Daily",
+        time: "09:30 PM"
+      },
+      {
+        id: 2,
+        title: "JoJo's Bizarre Adventure: Diamond Is Unbreakable",
+        image: "https://i.postimg.cc/zGpmW4zd/gpadk8yg-Tw516sc-C6w5I81yt-Yp-U.jpg",
+        season: "Season 3",
+        baseEp: 8,
+        languages: ["Hindi", "English", "Japanese"],
+        dayOfWeek: "Daily",
+        time: "09:45 PM"
+      },
+      {
+        id: 3,
+        title: "Clevatess",
+        image: "https://i.postimg.cc/pLkN83WF/157105l.jpg",
+        season: "Season 2",
+        baseEp: 10,
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        dayOfWeek: "Wednesday",
+        time: "06:00 PM"
+      },
+      {
+        id: 4,
+        title: "Trapped in a Dating Sim",
+        image: "https://i.postimg.cc/SxV08HS9/156964l.jpg",
+        season: "Season 2",
+        baseEp: 7,
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        dayOfWeek: "Wednesday",
+        time: "09:30 PM"
+      },
+      {
+        id: 5,
+        title: "Hana-Kimi",
+        image: "https://i.postimg.cc/Gmz0Y6LK/158523l.jpg",
+        season: "Season 2",
+        baseEp: 7,
+        languages: ["Hindi", "Tamil", "English", "Japanese"],
+        dayOfWeek: "Wednesday",
+        time: "10:00 PM"
+      },
+      {
+        id: 6,
+        title: "Thunder 3",
+        image: "https://i.postimg.cc/JzKwJSrY/155283l.jpg",
+        season: "Season 1",
+        baseEp: 10,
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        dayOfWeek: "Wednesday",
+        time: "10:30 PM"
+      },
+      {
+        id: 7,
+        title: "Tomb Raider King",
+        image: "https://i.postimg.cc/NjbhTZsz/5t-GDx07Zg-Ist-Vm-M7Xh4Xipfw-F5q.jpg",
+        season: "Season 1",
+        baseEp: 7,
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        dayOfWeek: "Wednesday",
+        time: "11:15 PM"
+      },
+      {
+        id: 8,
+        title: "Smoking Behind the Supermarket with You",
+        image: "https://i.postimg.cc/2STpvgkg/5Sa-Anir-Cut6Wmpw-D4Rz-CDZPr-Ntw.jpg",
+        season: "Season 1",
+        baseEp: 10,
+        languages: ["Hindi", "English", "Japanese"],
+        dayOfWeek: "Thursday",
+        time: "09:30 PM"
+      },
+      {
+        id: 9,
+        title: "The Exiled Heavy Knight Knows How to Game the System",
+        image: "https://i.postimg.cc/fbbGv5yr/b-ADz-Mfof-NWYdx-Lnlq-Nu-Mk-O6du34.jpg",
+        season: "Season 1",
+        baseEp: 10,
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        dayOfWeek: "Thursday",
+        time: "10:00 PM"
+      },
+      {
+        id: 10,
+        title: "Chainsmoker Cat",
+        image: "https://i.postimg.cc/7ZXv7jHp/kqe-Kl-Sd7o9BCb-Tra-Zs-Dnks-RSfxm.jpg",
+        season: "Season 1",
+        baseEp: 9,
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        dayOfWeek: "Thursday",
+        time: "10:00 PM"
+      },
+      {
+        id: 11,
+        title: "I Became a Legend After My 10 Year-Long Last Stand.",
+        image: "https://i.postimg.cc/yNNMTnx2/svc-Jy-WDhj1STk-OTSfxgd2h-Ov-Z0z.jpg",
+        season: "Season 1",
+        baseEp: 8,
+        languages: ["Hindi", "Japanese"],
+        dayOfWeek: "Friday",
+        time: "08:00 PM"
+      },
+      {
+        id: 12,
+        title: "That Time I Got Reincarnated as a Slime",
+        image: "https://i.postimg.cc/GppWjz9C/fq-N8Gbo-G7D6wf-W8WFFdesg-Snw-OA.jpg",
+        season: "Season 4",
+        baseEp: 16,
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        dayOfWeek: "Friday",
+        time: "09:00 PM"
+      },
+      {
+        id: 13,
+        title: "The Elusive Samurai",
+        image: "https://i.postimg.cc/JhhfQKtW/156329l.jpg",
+        season: "Season 2",
+        baseEp: 6,
+        languages: ["Hindi", "Japanese"],
+        dayOfWeek: "Friday",
+        time: "10:00 PM"
+      },
+      {
+        id: 14,
+        title: "Black Torch",
+        image: "https://i.postimg.cc/7LQpt7Tx/ww-Vm2Mnpm210b5c-Dp-Ggw-OO96KLg.jpg",
+        season: "Season 1",
+        baseEp: 3,
+        languages: ["Hindi", "English", "Japanese"],
+        dayOfWeek: "Saturday",
+        time: "07:00 PM"
+      },
+      {
+        id: 15,
+        title: "Bleach: Thousand-Year Blood War - The Calamity",
+        image: "https://i.postimg.cc/KYY65Q4F/x-Aii-Ph-Rm1z-Oy-Pw-BLjc-A2Rs-Ft-G8G.jpg",
+        season: "S1 P4",
+        baseEp: 6,
+        languages: ["Hindi", "Japanese"],
+        dayOfWeek: "Saturday",
+        time: "08:30 PM"
+      },
+      {
+        id: 16,
+        title: "Daemons of the Shadow Realm",
+        image: "https://i.postimg.cc/ZqD1s3yK/x9tq-Zf-ZLzu6T6q7wuy-SI8k7Qytf.jpg",
+        season: "Season 1",
+        baseEp: 20,
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        dayOfWeek: "Saturday",
+        time: "10:00 PM"
+      },
+      {
+        id: 17,
+        title: "Jaadugar: A Witch in Mongolia",
+        image: "https://i.postimg.cc/QMnRY5WB/723NT7KY9x-BFLYNNBa-EEREb-La-PC.jpg",
+        season: "Season 1",
+        baseEp: 5,
+        languages: ["Hindi", "English", "Japanese"],
+        dayOfWeek: "Saturday",
+        time: "10:00 PM"
+      },
+      {
+        id: 18,
+        title: "Hanaori-san Still Wants to Fight in the Next Life",
+        image: "https://i.postimg.cc/zBb4sBnR/h2JZRLa-FXWWhh61v-Ajqg-HXei-Zd8.jpg",
+        season: "Season 1",
+        baseEp: 7,
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        dayOfWeek: "Saturday",
+        time: "11:30 PM"
+      },
+      {
+        id: 19,
+        title: "Mushoku Tensei: Jobless Reincarnation",
+        image: "https://i.postimg.cc/W4fQYrJq/158090l.jpg",
+        season: "Season 3",
+        baseEp: 3,
+        languages: ["Hindi", "English", "Japanese"],
+        dayOfWeek: "Sunday",
+        time: "05:30 PM"
+      },
+      {
+        id: 20,
+        title: "Sparks of Tomorrow",
+        image: "https://i.postimg.cc/0QMhTQpZ/mr9Qy-V4o4w-A8Ckw-O6Gz-KMTTECc1.jpg",
+        season: "Season 1",
+        baseEp: 11,
+        languages: ["Hindi", "English", "Japanese"],
+        dayOfWeek: "Sunday",
+        time: "08:00 PM"
+      },
+      {
+        id: 21,
+        title: "Captain Tsubasa",
+        image: "https://i.postimg.cc/k46L04Qm/5TXq-Muk-Mg-UColihr-N5GGWNU3Y3Y.jpg",
+        season: "Season 2",
+        episodeText: "EP 28-30",
+        languages: ["Hindi", "Japanese"],
+        dayOfWeek: "Monday",
+        time: "11:30 AM"
+      },
+      {
+        id: 22,
+        title: "Grand Blue Dreaming",
+        image: "https://i.postimg.cc/mDzKvDYG/158194l.jpg",
+        season: "Season 3",
+        baseEp: 3,
+        languages: ["Hindi", "Japanese"],
+        dayOfWeek: "Monday",
+        time: "06:00 PM"
+      },
+      {
+        id: 23,
+        title: "Liar Game",
+        image: "https://i.postimg.cc/MTCgqSDF/w-WTlx-YPt-JQCm-PXlu4b9KZD95T3S.jpg",
+        season: "Season 1",
+        baseEp: 4,
+        languages: ["Hindi", "Telugu", "English", "Japanese"],
+        dayOfWeek: "Monday",
+        time: "10:00 PM"
+      }
+    ];
+
+    const DAYS_ORDER = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const DAYS_MAP = {
+      "Sunday": 0, "Monday": 1, "Tuesday": 2, "Wednesday": 3,
+      "Thursday": 4, "Friday": 5, "Saturday": 6
+    };
+
+    // সরাসরি খাঁটি IST টাইমজোন অনুযায়ী বর্তমান সময় বের করার আন্তর্জাতিক নিরাপদ মেথড
+    function getExactIST() {
+      const now = new Date();
+      // Intl API দিয়ে সরাসরি Asia/Kolkata সময় বের করা
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Kolkata',
+        hour12: false,
+        weekday: 'long',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      });
+      const parts = formatter.formatToParts(now);
+      const map = {};
+      parts.forEach(p => map[p.type] = p.value);
+
+      return {
+        weekday: map.weekday,
+        dayIdx: DAYS_MAP[map.weekday],
+        hours: parseInt(map.hour, 10),
+        minutes: parseInt(map.minute, 10),
+        seconds: parseInt(map.second, 10),
+        year: parseInt(map.year, 10),
+        month: parseInt(map.month, 10),
+        day: parseInt(map.day, 10)
+      };
+    }
+
+    function calculateDiffSeconds(dayOfWeek, timeStr, ist) {
+      const parts = timeStr.trim().split(" ");
+      const timeParts = parts[0].split(":");
+      let targetHour = parseInt(timeParts[0], 10);
+      const targetMin = parseInt(timeParts[1], 10);
+
+      if (parts[1].toUpperCase() === "PM" && targetHour < 12) targetHour += 12;
+      if (parts[1].toUpperCase() === "AM" && targetHour === 12) targetHour = 0;
+
+      // আজকের দিনে IST হিসেবে কত সেকেন্ড হয়েছে
+      const currentSeconds = (ist.hours * 3600) + (ist.minutes * 60) + ist.seconds;
+      const targetSeconds = (targetHour * 3600) + (targetMin * 60);
+
+      let diff = targetSeconds - currentSeconds;
+
+      if (dayOfWeek === "Daily") {
+        // আজকের নির্ধারিত সময় পার হয়ে গেলে পরের দিনের জন্য +২৪ ঘণ্টা
+        if (diff <= 0) {
+          diff += 86400;
+        }
+      } else {
+        const targetDayIdx = DAYS_MAP[dayOfWeek];
+        if (targetDayIdx !== undefined) {
+          let dayDiff = targetDayIdx - ist.dayIdx;
+          if (dayDiff < 0 || (dayDiff === 0 && diff <= 0)) {
+            dayDiff += 7; // এই সপ্তাহের বার পার হয়ে গেলে পরের সপ্তাহের বারের জন্য +৭ দিন
+          }
+          diff = (dayDiff * 86400) + targetSeconds - currentSeconds;
+        }
+      }
+
+      return Math.max(0, diff);
+    }
+
+    function getDynamicEpisode(anime, ist) {
+      if (anime.episodeText) return anime.episodeText;
+      // 2026-09-08 IST
+      const refDate = new Date("2026-09-08T00:00:00+05:30");
+      const currentDate = new Date(`${ist.year}-${String(ist.month).padStart(2,'0')}-${String(ist.day).padStart(2,'0')}T00:00:00+05:30`);
+      const diffDays = Math.floor((currentDate - refDate) / 86400000);
+
+      let add = 0;
+      if (anime.dayOfWeek === "Daily") {
+        add = Math.max(0, diffDays);
+      } else {
+        add = Math.max(0, Math.floor(diffDays / 7));
+      }
+      return "EP " + (anime.baseEp + add);
+    }
+
+    let currentSelectedDay = "All";
+    let activeList = [...animeList];
+
+    function applyFilters() {
+      const query = document.getElementById("searchInput").value.toLowerCase().trim();
+      const ist = getExactIST();
+
+      activeList = animeList.filter(anime => {
+        const matchesQuery = anime.title.toLowerCase().includes(query);
+        let matchesDay = true;
+
+        if (currentSelectedDay !== "All") {
+          matchesDay = (anime.dayOfWeek === currentSelectedDay || anime.dayOfWeek === "Daily");
+        }
+
+        return matchesQuery && matchesDay;
+      });
+
+      const sectionTitle = document.getElementById("sectionTitle");
+      if (currentSelectedDay === "All") {
+        sectionTitle.textContent = "All Ongoing Anime";
+      } else {
+        sectionTitle.textContent = (currentSelectedDay === ist.weekday)
+          ? `Today's Schedule (${currentSelectedDay})`
+          : `${currentSelectedDay}'s Schedule`;
+      }
+
+      document.getElementById("itemCount").textContent = `${activeList.length} shows`;
+      renderCards();
+    }
+
+    function selectDay(dayName) {
+      currentSelectedDay = dayName;
+
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.classList.remove("active");
+      });
+      const activeBtn = document.getElementById(`tab-${dayName}`);
+      if (activeBtn) {
+        activeBtn.classList.add("active");
+        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+
+      applyFilters();
+    }
+
+    function onSearchChange() {
+      applyFilters();
+    }
+
+    function renderCards() {
+      const container = document.getElementById("animeContainer");
+      const emptyMsg = document.getElementById("emptyMessage");
+      container.innerHTML = "";
+
+      if (activeList.length === 0) {
+        emptyMsg.classList.remove("hidden");
+        return;
+      } else {
+        emptyMsg.classList.add("hidden");
+      }
+
+      const ist = getExactIST();
+
+      activeList.forEach(anime => {
+        const langBadges = anime.languages.map(l => 
+          `<span class="text-[11px] px-2.5 py-0.5 rounded-md font-medium ${l === 'Hindi' ? 'badge-hindi' : 'badge-lang'}">${l}</span>`
+        ).join("");
+
+        const card = document.createElement("div");
+        card.className = "card-bg rounded-2xl p-4 shadow-xl";
+        card.innerHTML = `
+          <div class="flex gap-4">
+            <img src="${anime.image}" alt="${anime.title}" class="w-24 h-32 rounded-xl object-cover flex-shrink-0 bg-slate-800 border border-slate-700/50" loading="lazy" />
+            <div class="flex flex-col justify-between overflow-hidden flex-1">
+              <div>
+                <h2 class="font-bold text-[15px] leading-snug tracking-tight text-white mb-1">${anime.title}</h2>
+                <div class="flex gap-2 mb-2">
+                  <span class="text-xs bg-blue-950 text-blue-400 px-2 py-0.5 rounded-md border border-blue-900 font-medium">${anime.season}</span>
+                  <span class="text-xs bg-[#1a263c] text-gray-300 px-2 py-0.5 rounded-md font-medium" id="ep-val-${anime.id}">${getDynamicEpisode(anime, ist)}</span>
+                </div>
+                <div class="flex flex-wrap gap-1.5 mb-2">
+                  ${langBadges}
+                </div>
+              </div>
+              <div class="text-xs text-gray-400 space-y-0.5">
+                <div>📅 ${anime.dayOfWeek}</div>
+                <div>🕒 ${anime.time}</div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800">
+            <div class="text-[10px] font-bold text-center text-gray-400 mb-2 tracking-widest uppercase">NEXT EPISODE</div>
+            <div class="grid grid-cols-4 gap-2 text-center">
+              <div class="timer-cell p-2 rounded-xl">
+                <span class="text-lg font-bold text-white block" id="days-${anime.id}">00</span>
+                <span class="text-[9px] font-semibold text-gray-400 tracking-wider">DAYS</span>
+              </div>
+              <div class="timer-cell p-2 rounded-xl">
+                <span class="text-lg font-bold text-white block" id="hours-${anime.id}">00</span>
+                <span class="text-[9px] font-semibold text-gray-400 tracking-wider">HRS</span>
+              </div>
+              <div class="timer-cell p-2 rounded-xl">
+                <span class="text-lg font-bold text-white block" id="mins-${anime.id}">00</span>
+                <span class="text-[9px] font-semibold text-gray-400 tracking-wider">MIN</span>
+              </div>
+              <div class="timer-cell p-2 rounded-xl">
+                <span class="text-lg font-bold text-white block" id="secs-${anime.id}">00</span>
+                <span class="text-[9px] font-semibold text-gray-400 tracking-wider">SEC</span>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      tick();
+    }
+
+    function tick() {
+      const ist = getExactIST();
+
+      activeList.forEach(anime => {
+        const dEl = document.getElementById(`days-${anime.id}`);
+        const hEl = document.getElementById(`hours-${anime.id}`);
+        const mEl = document.getElementById(`mins-${anime.id}`);
+        const sEl = document.getElementById(`secs-${anime.id}`);
+        const epEl = document.getElementById(`ep-val-${anime.id}`);
+
+        if (!dEl || !hEl || !mEl || !sEl) return;
+
+        const totalSecs = calculateDiffSeconds(anime.dayOfWeek, anime.time, ist);
+
+        const days = Math.floor(totalSecs / 86400);
+        const hours = Math.floor((totalSecs % 86400) / 3600);
+        const mins = Math.floor((totalSecs % 3600) / 60);
+        const secs = totalSecs % 60;
+
+        dEl.textContent = String(days).padStart(2, '0');
+        hEl.textContent = String(hours).padStart(2, '0');
+        mEl.textContent = String(mins).padStart(2, '0');
+        sEl.textContent = String(secs).padStart(2, '0');
+
+        if (epEl) {
+          epEl.textContent = getDynamicEpisode(anime, ist);
+        }
+      });
+    }
+
+    function sharePage() {
+      if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.openTelegramLink === 'function') {
+        window.Telegram.WebApp.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=Check%20out%20the%20Anime%20Schedule!`);
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert("Link copied to clipboard!");
+      }
+    }
+
+    // শুরুতে IST দিন স্বয়ংক্রিয়ভাবে শনাক্ত ও সিলেক্ট করা
+    const initIST = getExactIST();
+    selectDay(initIST.weekday);
+
+    // প্রতি সেকেন্ডে টাইমার অবিরাম চলবে
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
