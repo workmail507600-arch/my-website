@@ -1465,39 +1465,6 @@ function startUpcomingTimers() {
 // Start Rendering & Countdown
 renderUpcomingAnime();
 startUpcomingTimers();
-
-          <script>
-    // ভারতীয় সময় (IST) অনুযায়ী কাউন্টডাউন এবং রিয়েল-টাইম এপিসোড অটো-আপডেটার
-    function autoUpdateAnimeEpisodes() {
-        const now = new Date();
-        const istOffset = 5.5 * 60 * 60 * 1000; // IST হলো UTC +5:30
-        const utcTime = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
-        const istTime = new Date(utcTime + istOffset);
-
-        // আপনার ওয়েবসাইটের প্রতিটি এনিমে কার্ড খুঁজে বের করা
-        const animeCards = document.querySelectorAll('*');
-
-        animeCards.forEach(card => {
-            // যদি কার্ডের ভেতরে রিলিজের সময় এবং এপিসোড টেক্সট থাকে
-            const timeText = card.innerText;
-            if (timeText && timeText.includes('09:30 PM') && timeText.includes('Trapped in a Dating Sim')) {
-                // উদাহরণস্বরূপ নির্দিষ্ট অ্যানিমের রিলিজ টাইম পার হলে এপিসোড বাড়ানোর লজিক এখানে কাজ করবে
-            }
-        });
-    }
-
-    // সঠিক উপায়ে আপনার পেজের এপিসোড ট্যাগ সিলেক্ট করে আপডেট করার মূল ফাংশন
-    window.addEventListener('DOMContentLoaded', () => {
-        setInterval(() => {
-            // পেজে থাকা সমস্ত কার্ড চেক করবে যেখানে 'EP' লেখা আছে
-            const elements = document.querySelectorAll('span, div, p');
-            elements.forEach(el => {
-                if (el.innerText.trim().startsWith('EP ')) {
-                    // আপনি চাইলে এখানে নির্দিষ্ট শর্ত দিতে পারেন
-                }
-            });
-        }, 1000);
-    });
 </script>
 </body>
 </html>
