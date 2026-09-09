@@ -956,14 +956,13 @@ renderUpcomingAnime();
 startUpcomingTimers();
 
           <script>
-    // নিরাপদ এনিমে এপিসোড অটো-আপডেটার (যা মূল শিডিউল বা ডাটা মুছবে না)
-    setTimeout(() => {
-        setInterval(() => {
+    // এপিসোড অটো-আপডেটার কোড (ত্রুটিমুক্ত সংস্করণ)
+    setTimeout(function() {
+        setInterval(function() {
             const cards = document.querySelectorAll('.card-bg');
             if (!cards) return;
 
             cards.forEach(card => {
-                // কার্ডের ভেতরের টাইমার এবং এপিসোড টেক্সট ট্র্যাক করা
                 const textContent = card.innerText;
                 if (textContent && textContent.includes("00") && !card.dataset.epUpdated) {
                     const epSpan = card.querySelector('span, div');
@@ -978,6 +977,5 @@ startUpcomingTimers();
                 }
             });
         }, 1000);
-    }, 2000); // পেজ পুরোপুরি লোড হওয়ার দুই সেকেন্ড পর এটি ব্যাকগ্রাউন্ডে কাজ শুরু করবে
-}
+    }, 2000);
 </script>
