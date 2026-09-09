@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> .redline-title {
-    font-size: 3rem; /* Makes the text large */
-    font-weight: 800; /* Makes the text bold */
-    text-transform: uppercase; /* Converts text to uppercase */
-    text-align: center; /* Centers the title */
-    background: linear-gradient(45deg, #ff416c, #ff4b2b); /* Adds a stylish gradient color */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 10px rgba(255, 65, 108, 0.3); /* Adds a nice glowing effect */
-    margin: 20px 0;
-    font-family: 'Poppins', sans-serif, Arial; /* Clean, modern font */
-}
+<head> <style>
+    .redline-title {
+        font-size: 3rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        text-align: center;
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 10px rgba(255, 65, 108, 0.3);
+        margin: 20px 0;
+        font-family: 'Poppins', sans-serif, Arial;
+    }
+</style>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const targetElement = document.querySelector('h1, .text-center, h2');
+        if (targetElement && !document.querySelector('.redline-title')) {
+            const titleDiv = document.createElement('div');
+            titleDiv.innerHTML = '<h1 class="redline-title">RedLineAnime</h1>';
+            targetElement.parentNode.insertBefore(titleDiv, targetElement);
+        }
+    });
+</script>
+
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
