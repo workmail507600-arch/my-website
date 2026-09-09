@@ -28,7 +28,103 @@
         }
     });
 </script>
+<style>
+    /* টেলিগ্রাম পপআপ স্টাইল */
+    #telegram-popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        backdrop-filter: blur(5px);
+    }
+    .telegram-popup-box {
+        background: #121c24;
+        border: 1px solid #1e293b;
+        padding: 25px;
+        border-radius: 16px;
+        width: 85%;
+        max-width: 340px;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        color: #e2e8f0;
+        font-family: 'Poppins', sans-serif, Arial;
+    }
+    .telegram-popup-close {
+        position: absolute;
+        top: 12px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: #94a3b8;
+        font-size: 22px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .telegram-popup-close:hover {
+        color: #ffffff;
+    }
+    .telegram-popup-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #ffffff;
+    }
+    .telegram-popup-desc {
+        font-size: 0.9rem;
+        color: #94a3b8;
+        margin-bottom: 20px;
+    }
+    .telegram-join-btn {
+        display: inline-block;
+        background: linear-gradient(45deg, #229ED9, #1778af);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        width: 100%;
+        box-sizing: border-box;
+        transition: opacity 0.2s;
+    }
+    .telegram-join-btn:hover {
+        opacity: 0.9;
+    }
+</style>
 
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        if (!localStorage.getItem('tg_popup_closed')) {
+            const popupHTML = `
+                <div id="telegram-popup-overlay">
+                    <div class="telegram-popup-box">
+                        <button class="telegram-popup-close" onclick="closeTgPopup()">&times;</button>
+                        <div class="telegram-popup-title">Join Our Channel</div>
+                        <div class="telegram-popup-desc">Stay updated with the latest anime schedules and updates!</div>
+                        <a href="https://t.me/redlineanime" target="_blank" class="telegram-join-btn" onclick="closeTgPopup()">Join Now</a>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', popupHTML);
+        }
+    });
+
+    function closeTgPopup() {
+        const popup = document.getElementById('telegram-popup-overlay');
+        if (popup) {
+            popup.remove();
+            localStorage.setItem('tg_popup_closed', 'true');
+        }
+    }
+</script>
+    
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
