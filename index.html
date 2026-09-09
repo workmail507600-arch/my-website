@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> <style>
+<head> <style> 
+    html {
+    scroll-behavior: smooth;
+}
+    
     .redline-title {
         font-size: 3rem;
         font-weight: 800;
@@ -147,7 +151,20 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
     </svg>
   </button>
+<!-- ================= UPCOMING SECTION START ================= -->
+<section id="upcoming-section" style="max-width: 480px; margin: 30px auto 10px; padding: 0 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #f8fafc;">
+    
+    <!-- Header Badge -->
+    <div style="background: #111827; border: 1px solid #1e3a8a; border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;">
+        <span>⏳</span> Upcoming Releases
+    </div>
 
+    <!-- Cards Mount Point -->
+    <div id="upcoming-anime-container" style="display: flex; flex-direction: column; gap: 16px;"></div>
+
+</section>
+<!-- ================= UPCOMING SECTION END ================= -->
+    
   <script>
     try {
       if (window.Telegram && window.Telegram.WebApp) {
@@ -389,7 +406,109 @@
         dayOfWeek: "Monday",
         time: "10:00 PM"
       }
-    ];        
+    ];   
+      const upcomingAnimeList = [
+    {
+        title: "The Ramparts of Ice",
+        image: "https://i.postimg.cc/fRZShp19/158835l.jpg",
+        season: "Season 2",
+        statusBadge: "Coming Soon",
+        languages: ["Hindi", "English", "Japanese"],
+        day: "Thursday",
+        time: "09:30 PM",
+        releaseDateIST: "2026-10-01T21:30:00+05:30",
+        displayDate: "01 Oct 2026"
+    },
+    {
+        title: "Ranma ½ (2024)",
+        image: "https://i.postimg.cc/zGjbDp10/159199l.jpg",
+        season: "Season 3",
+        statusBadge: "Coming Soon",
+        languages: ["Hindi", "English", "Japanese"],
+        day: "Saturday",
+        time: "09:00 PM",
+        releaseDateIST: "2026-10-03T21:00:00+05:30",
+        displayDate: "03 Oct 2026"
+    },
+    {
+        title: "The Seven Knights of the Marronnier Kingdom",
+        image: "https://i.postimg.cc/T39L2Q6f/h-Eiqdco-ZFq3Rqan-Ho-R75HQFn-Wy-K.jpg",
+        season: "Season 1",
+        statusBadge: "Coming Soon",
+        languages: ["Hindi", "English", "Japanese"],
+        day: "Saturday",
+        time: "10:00 PM",
+        releaseDateIST: "2026-10-03T22:00:00+05:30",
+        displayDate: "03 Oct 2026"
+    },
+    {
+        title: "Blue Box",
+        image: "https://i.postimg.cc/JzqD7KWg/na-It4Nj7Ib8r-R8Oi573OFA9Pv-Of.jpg",
+        season: "Season 2",
+        statusBadge: "Coming Soon",
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        day: "Sunday",
+        time: "10:00 PM",
+        releaseDateIST: "2026-10-04T22:00:00+05:30",
+        displayDate: "04 Oct 2026"
+    },
+    {
+        title: "Re:ZERO -Starting Life in Another World-",
+        image: "https://i.postimg.cc/7ZVGPXys/wd-NIKD8ws-RPAi-IQg-NRk9o-Ot-Cjn6.jpg",
+        season: "S4 PART 2",
+        statusBadge: "Coming Soon",
+        languages: ["Hindi", "English", "Japanese"],
+        day: "Wednesday",
+        time: "",
+        releaseDateIST: null,
+        displayDate: null
+    },
+    {
+        title: "Classroom of the Elite",
+        image: "https://i.postimg.cc/bwTDYLhj/153626l.jpg",
+        season: "Season 4",
+        statusBadge: "Coming Soon",
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        day: "",
+        time: "",
+        releaseDateIST: null,
+        displayDate: null
+    },
+    {
+        title: "The Detective Is Already Dead",
+        image: "https://i.postimg.cc/2SwbjTDm/156604l.jpg",
+        season: "Season 2",
+        statusBadge: "Coming Soon",
+        languages: ["Hindi", "English", "Japanese"],
+        day: "",
+        time: "",
+        releaseDateIST: null,
+        displayDate: null
+    },
+    {
+        title: "The Apothecary Diaries",
+        image: "https://i.postimg.cc/CxNBMJgM/i2F4Vy-A64Hm-Wi-MD4zf-VFbw-UYZWQ.jpg",
+        season: "Season 3",
+        statusBadge: "Coming Soon",
+        languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
+        day: "",
+        time: "",
+        releaseDateIST: null,
+        displayDate: null
+    },
+    {
+        title: "The Iceblade Sorcerer Shall Rule the World",
+        image: "https://i.postimg.cc/rpwdDWV6/159644l.jpg",
+        season: "Season 2",
+        statusBadge: "Coming Soon",
+        languages: ["Hindi", "English", "Japanese"],
+        day: "",
+        time: "",
+        releaseDateIST: null,
+        displayDate: null
+    }
+];
+      
     const DAYS_ORDER = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const DAYS_MAP = {
       "Sunday": 0, "Monday": 1, "Tuesday": 2, "Wednesday": 3,
@@ -641,6 +760,92 @@
 
     // প্রতি সেকেন্ডে টাইমার অবিরাম চলবে
     setInterval(tick, 1000);
+      // Render Upcoming Anime Cards
+function renderUpcomingAnime() {
+    const container = document.getElementById("upcoming-anime-container");
+    if (!container) return;
+    container.innerHTML = "";
+
+    upcomingAnimeList.forEach((anime, idx) => {
+        const langTags = anime.languages.map(l => {
+            const isHindi = l.toLowerCase() === "hindi";
+            return `<span style="font-size: 11px; padding: 2px 7px; border-radius: 5px; ${isHindi ? 'background: #ca8a0422; color: #eab308; border: 1px solid #ca8a0488;' : 'background: #1e293b; color: #94a3b8; border: 1px solid #334155;'}">${l}</span>`;
+        }).join(" ");
+
+        let scheduleTags = "";
+        if (anime.day) scheduleTags += `<span style="font-size: 12px; color: #60a5fa; background: #1e293b; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">📅 ${anime.day}</span> `;
+        if (anime.time) scheduleTags += `<span style="font-size: 12px; color: #60a5fa; background: #1e293b; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">🕒 ${anime.time}</span> `;
+        if (anime.displayDate) scheduleTags += `<div style="margin-top: 6px;"><span style="font-size: 12px; color: #facc15; background: #1e293b; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">🚀 ${anime.displayDate}</span></div>`;
+
+        let bottomModule = anime.releaseDateIST ? `
+            <div style="background: #090e1a; border-radius: 12px; padding: 12px; text-align: center; margin-top: 14px;">
+                <div style="font-size: 11px; color: #64748b; font-weight: 700; letter-spacing: 0.8px; margin-bottom: 8px;">RELEASES IN</div>
+                <div id="countdown-timer-${idx}" style="display: flex; justify-content: center; gap: 8px;">
+                    <div style="background: #172033; padding: 6px 10px; border-radius: 6px; min-width: 44px;"><div class="num-days" style="font-size: 18px; font-weight: 700; color: #fff;">00</div><div style="font-size: 9px; color: #64748b;">DAYS</div></div>
+                    <div style="background: #172033; padding: 6px 10px; border-radius: 6px; min-width: 44px;"><div class="num-hrs" style="font-size: 18px; font-weight: 700; color: #fff;">00</div><div style="font-size: 9px; color: #64748b;">HRS</div></div>
+                    <div style="background: #172033; padding: 6px 10px; border-radius: 6px; min-width: 44px;"><div class="num-min" style="font-size: 18px; font-weight: 700; color: #fff;">00</div><div style="font-size: 9px; color: #64748b;">MIN</div></div>
+                    <div style="background: #172033; padding: 6px 10px; border-radius: 6px; min-width: 44px;"><div class="num-sec" style="font-size: 18px; font-weight: 700; color: #fff;">00</div><div style="font-size: 9px; color: #64748b;">SEC</div></div>
+                </div>
+            </div>` : `
+            <div style="background: #090e1a; border-radius: 12px; padding: 12px; text-align: center; margin-top: 14px;">
+                <div style="font-size: 11px; color: #64748b; font-weight: 700; letter-spacing: 0.8px; margin-bottom: 8px;">RELEASES IN</div>
+                <div style="background: #eab30815; border: 1px solid #eab30840; color: #facc15; font-size: 13px; font-weight: 500; padding: 9px; border-radius: 8px;">
+                    ⚠️ Date Not Announced
+                </div>
+            </div>`;
+
+        container.innerHTML += `
+            <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 16px; padding: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);">
+                <div style="display: flex; gap: 12px;">
+                    <img src="${anime.image}" alt="${anime.title}" style="width: 95px; height: 138px; border-radius: 8px; object-fit: cover; background: #1e293b;">
+                    <div style="flex: 1;">
+                        <div style="font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 6px;">${anime.title}</div>
+                        <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+                            <span style="font-size: 11px; color: #93c5fd; background: #1e293b; border: 1px solid #1d4ed8; padding: 2px 7px; border-radius: 5px;">${anime.season}</span>
+                            <span style="font-size: 11px; color: #94a3b8; background: #1e293b; border: 1px solid #334155; padding: 2px 7px; border-radius: 5px;">${anime.statusBadge}</span>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px;">${langTags}</div>
+                        <div>${scheduleTags}</div>
+                    </div>
+                </div>
+                ${bottomModule}
+            </div>`;
+    });
+}
+
+// Live Countdown Updater (IST)
+function startUpcomingTimers() {
+    setInterval(() => {
+        const now = typeof getExactIST === 'function' ? getExactIST().getTime() : new Date().getTime();
+
+        upcomingAnimeList.forEach((anime, idx) => {
+            if (!anime.releaseDateIST) return;
+            const diff = new Date(anime.releaseDateIST).getTime() - now;
+            const elem = document.getElementById(`countdown-timer-${idx}`);
+            if (!elem) return;
+
+            if (diff <= 0) {
+                elem.parentElement.innerHTML = `<div style="color: #4ade80; font-weight: 600; padding: 8px;">Released / Airing Now</div>`;
+                return;
+            }
+
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+
+            elem.querySelector('.num-days').innerText = d < 10 ? '0' + d : d;
+            elem.querySelector('.num-hrs').innerText = h < 10 ? '0' + h : h;
+            elem.querySelector('.num-min').innerText = m < 10 ? '0' + m : m;
+            elem.querySelector('.num-sec').innerText = s < 10 ? '0' + s : s;
+        });
+    }, 1000);
+}
+
+// Start Rendering & Countdown
+renderUpcomingAnime();
+startUpcomingTimers();
+      
   </script>
 </body>
 </html>
