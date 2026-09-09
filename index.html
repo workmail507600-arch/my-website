@@ -676,9 +676,10 @@
       return Math.max(0, diff);
     }
 
-    function getDynamicEpisode(anime, ist) {
+         function getDynamicEpisode(anime, ist) {
       if (anime.episodeText) return anime.episodeText;
-      // 2026-09-08 IST
+      
+      // রেফারেন্স ডেট: 2026-09-08 IST
       const refDate = new Date("2026-09-08T00:00:00+05:30");
       const currentDate = new Date(`${ist.year}-${String(ist.month).padStart(2,'0')}-${String(ist.day).padStart(2,'0')}T00:00:00+05:30`);
       const diffDays = Math.floor((currentDate - refDate) / 86400000);
@@ -689,6 +690,33 @@
       } else {
         add = Math.max(0, Math.floor(diffDays / 7));
       }
+      // সময় পার হয়েছে কি না চেক করা (টাইমার শূন্য হলে এপিসোড +১ হবে)
+      if (anime.time) {
+        const parts = anime.time.trim().split(" ");
+        const timeParts = parts[0].split(":");
+        let targetHour = parseInt(timeParts[0], 10);
+        const targetMin = parseInt(timeParts[1], 10);
+
+        if (parts[1].toUpperCase() === "PM" && targetHour < 12) targetHour += 12;
+        if (parts[1].toUpperCase() === "AM" && targetHour === 12) targetHour = 0;
+
+        const currentSeconds = (ist.hours * 3600) + (ist.minutes * 60) + ist.seconds;
+        const targetSeconds = (targetHour * 3600) + (targetMin * 60);
+
+        // সাপ্তাহিক অ্যানিমের ক্ষেত্রে আজ রিলিজের দিন হলে ও নির্ধারিত সময় পার হয়ে গেলে +১
+        if (anime.dayOfWeek !== "Daily") {
+          const targetDayIdx = DAYS_MAP[anime.dayOfWeek];
+          if (ist.dayIdx === targetDayIdx && currentSeconds >= targetSeconds) {
+            add += 1;
+          }
+        } else {
+          // ডেইলি অ্যানিমের ক্ষেত্রে সময় পার হলেই +১
+          if (currentSeconds >= targetSeconds) {
+            add += 1;
+          }
+        }
+      }
+
       return "EP " + (anime.baseEp + add);
     }
 
