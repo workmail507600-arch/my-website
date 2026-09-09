@@ -955,6 +955,36 @@ function startUpcomingTimers() {
 renderUpcomingAnime();
 startUpcomingTimers();
 
+          // ভারতীয় সময় (IST) অনুযায়ী রিয়েল-টাইমে এপিসোড অটো-আপডেটের কোড
+    function updateLiveEpisodesIST() {
+        const now = new Date();
+        const istOffset = 5.5 * 60 * 60 * 1000; // IST হলো UTC +5:30
+        const utcTime = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+        const istTime = new Date(utcTime + istOffset);
+
+        const animeItems = document.querySelectorAll('.anime-episode-element');
+
+        animeItems.forEach(item => {
+            const releaseTimeStr = item.getAttribute('data-release-time'); 
+            const episodeSpan = item.querySelector('.episode-number');
+            
+            if (releaseTimeStr && episodeSpan) {
+                const releaseTime = new Date(releaseTimeStr).getTime();
+                const currentISTTimeMs = istTime.getTime();
+
+                if (currentISTTimeMs >= releaseTime) {
+                    let currentEp = parseInt(episodeSpan.innerText.replace(/\D/g, '')) || 10;
+                    if (!item.hasAttribute('data-updated')) {
+                        episodeSpan.innerText = currentEp + 1;
+                        item.setAttribute('data-updated', 'true');
+                    }
+                }
+            }
+        });
+    }
+
+    // প্রতি ১ সেকেন্ড পরপর ইন্ডিয়ান টাইম চেক করবে
+    setInterval(updateLiveEpisodesIST, 1000);
       
   </script>
 </body>
