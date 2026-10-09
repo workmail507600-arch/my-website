@@ -318,7 +318,8 @@
         title: "The Ramparts of Ice",
         image: "https://i.postimg.cc/fRZShp19/158835l.jpg",
         season: "Season 2",
-        baseEp: 0,
+        baseEp: 1,
+        startDate: "2026-10-01",
         languages: ["Hindi", "Tamil", "Telugu"],
         dayOfWeek: "Thursday",
         time: "09:30 PM"
@@ -438,7 +439,8 @@
         title: "Ranma ½ (2024)",
         image: "https://i.postimg.cc/zGjbDp10/159199l.jpg",
         season: "Season 3",
-        baseEp: 0,
+        baseEp: 1,
+        startDate: "2026-10-03",
         languages: ["Hindi", "English", "Japanese"],
         dayOfWeek: "Saturday",
         time: "11:00 PM"
@@ -448,7 +450,8 @@
         title: "The Seven Knights of the Marronnier Kingdom",
         image: "https://i.postimg.cc/T39L2Q6f/h-Eiqdco-ZFq3Rqan-Ho-R75HQFn-Wy-K.jpg",
         season: "Season 1",
-        baseEp: 0,
+        baseEp: 1,
+        startDate: "2026-10-03",
         language: ["Hindi", "English", "Japanese"],
         dayOfweek: "Saturday",
         time: "09:00 PM" 
@@ -478,7 +481,8 @@
         title: "Blue Box",
         image: "https://i.postimg.cc/JzqD7KWg/na-It4Nj7Ib8r-R8Oi573OFA9Pv-Of.jpg",
         season: "Season 2",
-        baseEp: 0,  
+        baseEp: 1,
+        startDate: "2026-10-04",
         languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
         dayOfweek: "Sunday",
         time: "10:00 PM"
@@ -702,7 +706,8 @@
       if (anime.episodeText) return anime.episodeText;
       
       // রেফারেন্স ডেট: 2026-09-08 IST
-      const refDate = new Date("2026-09-08T00:00:00+05:30");
+      const refDate = new Date((anime.startDate ? anime.startDate : "2026-09-08") + "T00:00:00+05:30");
+
       const currentDate = new Date(`${ist.year}-${String(ist.month).padStart(2,'0')}-${String(ist.day).padStart(2,'0')}T00:00:00+05:30`);
       const diffDays = Math.floor((currentDate - refDate) / 86400000);
 
