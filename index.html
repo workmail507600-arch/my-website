@@ -1,131 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> <style> 
+<head> 
+  <style> 
     html {
-    scroll-behavior: smooth;
-}
+      scroll-behavior: smooth;
+    }
     
     .redline-title {
-        font-size: 3rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        text-align: center;
-        background: linear-gradient(45deg, #ff416c, #ff4b2b);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 2px 2px 10px rgba(255, 65, 108, 0.3);
-        margin: 20px 0;
-        font-family: 'Poppins', sans-serif, Arial;
+      font-size: 3rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-align: center;
+      background: linear-gradient(45deg, #ff416c, #ff4b2b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 2px 2px 10px rgba(255, 65, 108, 0.3);
+      margin: 20px 0;
+      font-family: 'Poppins', sans-serif, Arial;
     }
-</style>
-<script>
+  </style>
+  <script>
     window.addEventListener('DOMContentLoaded', (event) => {
-        const targetElement = document.querySelector('h1, .text-center, h2');
-        if (targetElement && !document.querySelector('.redline-title')) {
-            const titleDiv = document.createElement('div');
-            titleDiv.innerHTML = '<h1 class="redline-title">RedLineAnime</h1>';
-            targetElement.parentNode.insertBefore(titleDiv, targetElement);
-        }
+      const targetElement = document.querySelector('h1, .text-center, h2');
+      if (targetElement && !document.querySelector('.redline-title')) {
+        const titleDiv = document.createElement('div');
+        titleDiv.innerHTML = '<h1 class="redline-title">RedLineAnime</h1>';
+        targetElement.parentNode.insertBefore(titleDiv, targetElement);
+      }
     });
-</script>
-<style>
+  </script>
+  <style>
     /* টেলিগ্রাম পপআপ স্টাইল */
     #telegram-popup-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.75);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        backdrop-filter: blur(5px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      backdrop-filter: blur(5px);
     }
     .telegram-popup-box {
-        background: #121c24;
-        border: 1px solid #1e293b;
-        padding: 25px;
-        border-radius: 16px;
-        width: 85%;
-        max-width: 340px;
-        text-align: center;
-        position: relative;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        color: #e2e8f0;
-        font-family: 'Poppins', sans-serif, Arial;
+      background: #121c24;
+      border: 1px solid #1e293b;
+      padding: 25px;
+      border-radius: 16px;
+      width: 85%;
+      max-width: 340px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      color: #e2e8f0;
+      font-family: 'Poppins', sans-serif, Arial;
     }
     .telegram-popup-close {
-        position: absolute;
-        top: 12px;
-        right: 15px;
-        background: none;
-        border: none;
-        color: #94a3b8;
-        font-size: 22px;
-        cursor: pointer;
-        font-weight: bold;
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 22px;
+      cursor: pointer;
+      font-weight: bold;
     }
     .telegram-popup-close:hover {
-        color: #ffffff;
+      color: #ffffff;
     }
     .telegram-popup-title {
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin-bottom: 10px;
-        color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #ffffff;
     }
     .telegram-popup-desc {
-        font-size: 0.9rem;
-        color: #94a3b8;
-        margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-bottom: 20px;
     }
     .telegram-join-btn {
-        display: inline-block;
-        background: linear-gradient(45deg, #229ED9, #1778af);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.95rem;
-        width: 100%;
-        box-sizing: border-box;
-        transition: opacity 0.2s;
+      display: inline-block;
+      background: linear-gradient(45deg, #229ED9, #1778af);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      width: 100%;
+      box-sizing: border-box;
+      transition: opacity 0.2s;
     }
     .telegram-join-btn:hover {
-        opacity: 0.9;
+      opacity: 0.9;
     }
-</style>
+  </style>
 
-<script>
+  <script>
     window.addEventListener('DOMContentLoaded', (event) => {
-        if (!localStorage.getItem('tg_popup_closed')) {
-            const popupHTML = `
-                <div id="telegram-popup-overlay">
-                    <div class="telegram-popup-box">
-                        <button class="telegram-popup-close" onclick="closeTgPopup()">&times;</button>
-                        <div class="telegram-popup-title">Join Our Channel</div>
-                        <div class="telegram-popup-desc">Stay updated with the latest anime schedules and updates!</div>
-                        <a href="https://t.me/redlineanime" target="_blank" class="telegram-join-btn" onclick="closeTgPopup()">Join Now</a>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', popupHTML);
-        }
+      if (!localStorage.getItem('tg_popup_closed')) {
+        const popupHTML = `
+          <div id="telegram-popup-overlay">
+            <div class="telegram-popup-box">
+              <button class="telegram-popup-close" onclick="closeTgPopup()">&times;</button>
+              <div class="telegram-popup-title">Join Our Channel</div>
+              <div class="telegram-popup-desc">Stay updated with the latest anime schedules and updates!</div>
+              <a href="https://t.me/redlineanime" target="_blank" class="telegram-join-btn" onclick="closeTgPopup()">Join Now</a>
+            </div>
+          </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', popupHTML);
+      }
     });
 
     function closeTgPopup() {
-        const popup = document.getElementById('telegram-popup-overlay');
-        if (popup) {
-            popup.remove();
-            localStorage.setItem('tg_popup_closed', 'true');
-        }
+      const popup = document.getElementById('telegram-popup-overlay');
+      if (popup) {
+        popup.remove();
+        localStorage.setItem('tg_popup_closed', 'true');
+      }
     }
-</script>
+  </script>
     
-  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Anime Schedule</title>
@@ -191,14 +191,14 @@
       <span>🔗</span> Share Page
     </button>
   </div>
-    <!-- Upcoming Button (Paste this right beside your Share button) -->
-<a href="#upcoming-section" style="display: inline-flex; align-items: center; gap: 6px; background-color: #1d4ed8; color: #ffffff; padding: 8px 16px; border-radius: 9999px; text-decoration: none; font-size: 14px; font-weight: 500; transition: background 0.2s;">
+  
+  <!-- Upcoming Button -->
+  <a href="#upcoming-section" style="display: inline-flex; align-items: center; gap: 6px; background-color: #1d4ed8; color: #ffffff; padding: 8px 16px; border-radius: 9999px; text-decoration: none; font-size: 14px; font-weight: 500; transition: background 0.2s;">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 5v14M19 12l-7 7-7-7"/>
+      <path d="M12 5v14M19 12l-7 7-7-7"/>
     </svg>
     Upcoming
-</a>
-    
+  </a>
 
   <!-- Day Selection Tabs -->
   <div class="my-3">
@@ -247,19 +247,15 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
     </svg>
   </button>
-<!-- ================= UPCOMING SECTION START ================= -->
-<section id="upcoming-section" style="max-width: 480px; margin: 30px auto 10px; padding: 0 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #f8fafc;">
-    
-    <!-- Header Badge -->
+
+  <!-- ================= UPCOMING SECTION START ================= -->
+  <section id="upcoming-section" style="max-width: 480px; margin: 30px auto 10px; padding: 0 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #f8fafc;">
     <div style="background: #111827; border: 1px solid #1e3a8a; border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;">
-        <span>⏳</span> Upcoming Releases
+      <span>⏳</span> Upcoming Releases
     </div>
-
-    <!-- Cards Mount Point -->
     <div id="upcoming-anime-container" style="display: flex; flex-direction: column; gap: 16px;"></div>
-
-</section>
-<!-- ================= UPCOMING SECTION END ================= -->
+  </section>
+  <!-- ================= UPCOMING SECTION END ================= -->
     
   <script>
     try {
@@ -272,7 +268,6 @@
     } catch (e) {}
 
     const animeList = [
-        
       {
         id: 1,
         title: "JoJo's Bizarre Adventure: Diamond Is Unbreakable",
@@ -345,17 +340,17 @@
         time: "10:00 PM"
       },
       {
-        id: 08,
+        id: 8,
         title: "Steel Ball Run: JoJo's Bizarre Adventure",
         image: "https://i.postimg.cc/XN8FsRgj/IMG-20260913-122757.jpg",
         season: "2nd-3rd Stage",
         baseEp: 0,
-        languages: ["Hindi", "Tamil" , "Telugu" , "Japanese"],
+        languages: ["Hindi", "Tamil", "Telugu", "Japanese"],
         dayOfWeek: "Friday",
-        time: "01:30 PM",
-    },
-    {
-        id: 09,
+        time: "01:30 PM"
+      },
+      {
+        id: 9,
         title: "I Became a Legend After My 10 Year-Long Last Stand.",
         image: "https://i.postimg.cc/yNNMTnx2/svc-Jy-WDhj1STk-OTSfxgd2h-Ov-Z0z.jpg",
         season: "Season 1",
@@ -452,8 +447,8 @@
         season: "Season 1",
         baseEp: 1,
         startDate: "2026-10-03",
-        language: ["Hindi", "English", "Japanese"],
-        dayOfweek: "Saturday",
+        languages: ["Hindi", "English", "Japanese"],
+        dayOfWeek: "Saturday",
         time: "09:00 PM" 
       },     
       {
@@ -484,7 +479,7 @@
         baseEp: 1,
         startDate: "2026-10-04",
         languages: ["Hindi", "Tamil", "Telugu", "English", "Japanese"],
-        dayOfweek: "Sunday",
+        dayOfWeek: "Sunday",
         time: "10:00 PM"
       },     
       {
@@ -507,7 +502,7 @@
         dayOfWeek: "Monday",
         time: "10:00 PM"
       },
-        {
+      {
         id: 24,
         title: "The Frontier Lord Begins with Zero Subjects",
         image: "https://i.postimg.cc/k52sbYBM/Watch-The-Frontier-Lord-Begins-with-Zero-Subjects-Season-1-Hindi-Dubbed-Episodes-Download-HD-683x102.webp",
@@ -516,21 +511,22 @@
         languages: ["Hindi", "Japanese"],
         dayOfWeek: "Thursday",
         time: "12:00 PM"
-        }
+      }
     ];   
-      const upcomingAnimeList = [ 
+
+    const upcomingAnimeList = [ 
       {
-         title: "Overgeared",
-         image: "https://i.postimg.cc/0yjWTZLT/file-00000000761c81f4ac2642eb7c01b261.png",
-         season: "Season 1",
-         statusBadge: "Confirmed",
-         languages: ["Hindi", "Japanese", "English"],
-         day: "Sunday",
-         time: "08:30 PM",
-         releaseDateIST: "2026-09-27T20:30:00+05:30",
-         displayDate: "27 Sep 2026"
-        },      
-        {
+        title: "Overgeared",
+        image: "https://i.postimg.cc/0yjWTZLT/file-00000000761c81f4ac2642eb7c01b261.png",
+        season: "Season 1",
+        statusBadge: "Confirmed",
+        languages: ["Hindi", "Japanese", "English"],
+        day: "Sunday",
+        time: "08:30 PM",
+        releaseDateIST: "2026-09-27T20:30:00+05:30",
+        displayDate: "27 Sep 2026"
+      },      
+      {
         title: "The Ramparts of Ice",
         image: "https://i.postimg.cc/fRZShp19/158835l.jpg",
         season: "Season 2",
@@ -540,8 +536,8 @@
         time: "09:30 PM",
         releaseDateIST: "2026-10-01T21:30:00+05:30",
         displayDate: "01 Oct 2026"
-    },
-    {
+      },
+      {
         title: "Ranma ½ (2024)",
         image: "https://i.postimg.cc/zGjbDp10/159199l.jpg",
         season: "Season 3",
@@ -551,8 +547,8 @@
         time: "09:00 PM",
         releaseDateIST: "2026-10-03T21:00:00+05:30",
         displayDate: "03 Oct 2026"
-    },
-    {
+      },
+      {
         title: "The Seven Knights of the Marronnier Kingdom",
         image: "https://i.postimg.cc/T39L2Q6f/h-Eiqdco-ZFq3Rqan-Ho-R75HQFn-Wy-K.jpg",
         season: "Season 1",
@@ -573,8 +569,8 @@
         time: "10:00 PM",
         releaseDateIST: "2026-10-04T22:00:00+05:30",
         displayDate: "04 Oct 2026"
-    },
-    {
+      },
+      {
         title: "Re:ZERO -Starting Life in Another World-",
         image: "https://i.postimg.cc/7ZVGPXys/wd-NIKD8ws-RPAi-IQg-NRk9o-Ot-Cjn6.jpg",
         season: "S4 PART 2",
@@ -584,8 +580,8 @@
         time: "09:00 PM",
         releaseDateIST: "2026-10-07T21:00:00+05:30",
         displayDate: "07 Oct 2026"
-    },
-    {
+      },
+      {
         title: "Classroom of the Elite",
         image: "https://i.postimg.cc/bwTDYLhj/153626l.jpg",
         season: "Season 4",
@@ -595,8 +591,8 @@
         time: "",
         releaseDateIST: null,
         displayDate: null
-    },
-    {
+      },
+      {
         title: "The Detective Is Already Dead",
         image: "https://i.postimg.cc/2SwbjTDm/156604l.jpg",
         season: "Season 2",
@@ -606,8 +602,8 @@
         time: "",
         releaseDateIST: null,
         displayDate: null
-    },
-    {
+      },
+      {
         title: "The Apothecary Diaries",
         image: "https://i.postimg.cc/CxNBMJgM/i2F4Vy-A64Hm-Wi-MD4zf-VFbw-UYZWQ.jpg",
         season: "Season 3",
@@ -617,8 +613,8 @@
         time: "",
         releaseDateIST: null,
         displayDate: null
-    },
-    {
+      },
+      {
         title: "The Iceblade Sorcerer Shall Rule the World",
         image: "https://i.postimg.cc/rpwdDWV6/159644l.jpg",
         season: "Season 2",
@@ -628,8 +624,8 @@
         time: "",
         releaseDateIST: null,
         displayDate: null
-    }
-];
+      }
+    ];
       
     const DAYS_ORDER = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const DAYS_MAP = {
@@ -637,10 +633,8 @@
       "Thursday": 4, "Friday": 5, "Saturday": 6
     };
 
-    // সরাসরি খাঁটি IST টাইমজোন অনুযায়ী বর্তমান সময় বের করার আন্তর্জাতিক নিরাপদ মেথড
     function getExactIST() {
       const now = new Date();
-      // Intl API দিয়ে সরাসরি Asia/Kolkata সময় বের করা
       const formatter = new Intl.DateTimeFormat('en-US', {
         timeZone: 'Asia/Kolkata',
         hour12: false,
@@ -677,14 +671,12 @@
       if (parts[1].toUpperCase() === "PM" && targetHour < 12) targetHour += 12;
       if (parts[1].toUpperCase() === "AM" && targetHour === 12) targetHour = 0;
 
-      // আজকের দিনে IST হিসেবে কত সেকেন্ড হয়েছে
       const currentSeconds = (ist.hours * 3600) + (ist.minutes * 60) + ist.seconds;
       const targetSeconds = (targetHour * 3600) + (targetMin * 60);
 
       let diff = targetSeconds - currentSeconds;
 
       if (dayOfWeek === "Daily") {
-        // আজকের নির্ধারিত সময় পার হয়ে গেলে পরের দিনের জন্য +২৪ ঘণ্টা
         if (diff <= 0) {
           diff += 86400;
         }
@@ -693,7 +685,7 @@
         if (targetDayIdx !== undefined) {
           let dayDiff = targetDayIdx - ist.dayIdx;
           if (dayDiff < 0 || (dayDiff === 0 && diff <= 0)) {
-            dayDiff += 7; // এই সপ্তাহের বার পার হয়ে গেলে পরের সপ্তাহের বারের জন্য +৭ দিন
+            dayDiff += 7;
           }
           diff = (dayDiff * 86400) + targetSeconds - currentSeconds;
         }
@@ -702,49 +694,65 @@
       return Math.max(0, diff);
     }
 
-         function getDynamicEpisode(anime, ist) {
-      if (anime.episodeText) return anime.episodeText;
-      
-      // রেফারেন্স ডেট: 2026-09-08 IST
-      const refDate = new Date((anime.startDate ? anime.startDate : "2026-09-08") + "T00:00:00+05:30");
-
-      const currentDate = new Date(`${ist.year}-${String(ist.month).padStart(2,'0')}-${String(ist.day).padStart(2,'0')}T00:00:00+05:30`);
-      const diffDays = Math.floor((currentDate - refDate) / 86400000);
-
-      let add = 0;
-      if (anime.dayOfWeek === "Daily") {
-        add = Math.max(0, diffDays);
-      } else {
-        add = Math.max(0, Math.floor(diffDays / 7));
+    function getAnimeStatus(anime, ist) {
+      if (anime.episodeText) {
+        return { text: anime.episodeText, state: "ONGOING" };
       }
-      // সময় পার হয়েছে কি না চেক করা (টাইমার শূন্য হলে এপিসোড +১ হবে)
+
+      const startStr = anime.startDate ? anime.startDate : "2026-09-08";
+      const startParts = startStr.split("-");
+      const startYear = parseInt(startParts[0], 10);
+      const startMonth = parseInt(startParts[1], 10) - 1;
+      const startDay = parseInt(startParts[2], 10);
+
+      let targetHour = 0;
+      let targetMin = 0;
       if (anime.time) {
         const parts = anime.time.trim().split(" ");
         const timeParts = parts[0].split(":");
-        let targetHour = parseInt(timeParts[0], 10);
-        const targetMin = parseInt(timeParts[1], 10);
+        targetHour = parseInt(timeParts[0], 10);
+        targetMin = parseInt(timeParts[1], 10);
+        if (parts[1] && parts[1].toUpperCase() === "PM" && targetHour < 12) targetHour += 12;
+        if (parts[1] && parts[1].toUpperCase() === "AM" && targetHour === 12) targetHour = 0;
+      }
 
-        if (parts[1].toUpperCase() === "PM" && targetHour < 12) targetHour += 12;
-        if (parts[1].toUpperCase() === "AM" && targetHour === 12) targetHour = 0;
+      const firstReleaseTime = new Date(Date.UTC(startYear, startMonth, startDay, targetHour - 5, targetMin - 30)).getTime();
+      const nowTime = new Date(Date.UTC(ist.year, ist.month - 1, ist.day, ist.hours - 5, ist.minutes - 30, ist.seconds)).getTime();
 
-        const currentSeconds = (ist.hours * 3600) + (ist.minutes * 60) + ist.seconds;
-        const targetSeconds = (targetHour * 3600) + (targetMin * 60);
+      if (nowTime < firstReleaseTime) {
+        return { text: "Coming Soon", state: "UPCOMING" };
+      }
 
-        // সাপ্তাহিক অ্যানিমের ক্ষেত্রে আজ রিলিজের দিন হলে ও নির্ধারিত সময় পার হয়ে গেলে +১
-        if (anime.dayOfWeek !== "Daily") {
-          const targetDayIdx = DAYS_MAP[anime.dayOfWeek];
-          if (ist.dayIdx === targetDayIdx && currentSeconds >= targetSeconds) {
-            add += 1;
-          }
+      if (anime.isBatch) {
+        const batchExpireTime = firstReleaseTime + (7 * 86400 * 1000);
+        if (nowTime > batchExpireTime) {
+          return { text: "Expired", state: "EXPIRED" };
+        }
+        return { text: anime.batchText || "All Episodes", state: "ONGOING" };
+      }
+
+      const passedSeconds = Math.max(0, Math.floor((nowTime - firstReleaseTime) / 1000));
+      const interval = (anime.dayOfWeek === "Daily") ? 86400 : 604800;
+      const add = Math.floor(passedSeconds / interval);
+      const currentEp = (anime.baseEp || 0) + add;
+
+      if (typeof anime.totalEp === "number" && currentEp > anime.totalEp) {
+        const finalEpTime = firstReleaseTime + ((anime.totalEp - (anime.baseEp || 0)) * interval * 1000);
+        const expiredLimit = 7 * 86400 * 1000;
+
+        if (nowTime > (finalEpTime + expiredLimit)) {
+          return { text: "Expired", state: "EXPIRED" };
         } else {
-          // ডেইলি অ্যানিমের ক্ষেত্রে সময় পার হলেই +১
-          if (currentSeconds >= targetSeconds) {
-            add += 1;
-          }
+          return { text: "Season Ended", state: "COMPLETED" };
         }
       }
 
-      return "EP " + (anime.baseEp + add);
+      return { text: "EP " + currentEp, state: "ONGOING" };
+    }
+
+    function getDynamicEpisode(anime, ist) {
+      const status = getAnimeStatus(anime, ist);
+      return status.text;
     }
 
     let currentSelectedDay = "All";
@@ -757,6 +765,20 @@
       activeList = animeList.filter(anime => {
         const matchesQuery = anime.title.toLowerCase().includes(query);
         let matchesDay = true;
+        
+        const status = getAnimeStatus(anime, ist);
+
+        if (status.state === "EXPIRED") return false;
+        if (currentSelectedDay !== "Upcoming" && status.state === "UPCOMING") return false;
+        if (currentSelectedDay !== "Completed" && status.state === "COMPLETED") return false;
+
+        if (currentSelectedDay === "Completed") {
+          return matchesQuery && (status.state === "COMPLETED");
+        }
+
+        if (currentSelectedDay === "Upcoming") {
+          return matchesQuery && (status.state === "UPCOMING");
+        }
 
         if (currentSelectedDay !== "All") {
           matchesDay = (anime.dayOfWeek === currentSelectedDay || anime.dayOfWeek === "Daily");
@@ -766,15 +788,21 @@
       });
 
       const sectionTitle = document.getElementById("sectionTitle");
-      if (currentSelectedDay === "All") {
-        sectionTitle.textContent = "All Ongoing Anime";
-      } else {
-        sectionTitle.textContent = (currentSelectedDay === ist.weekday)
-          ? `Today's Schedule (${currentSelectedDay})`
-          : `${currentSelectedDay}'s Schedule`;
+      if (sectionTitle) {
+        if (currentSelectedDay === "All") {
+          sectionTitle.textContent = "All Ongoing Anime";
+        } else {
+          sectionTitle.textContent = (currentSelectedDay === ist.weekday)
+            ? `Today's Schedule (${currentSelectedDay})`
+            : `${currentSelectedDay}'s Schedule`;
+        }
       }
 
-      document.getElementById("itemCount").textContent = `${activeList.length} shows`;
+      const itemCount = document.getElementById("itemCount");
+      if (itemCount) {
+        itemCount.textContent = `${activeList.length} shows`;
+      }
+
       renderCards();
     }
 
@@ -796,48 +824,7 @@
     function onSearchChange() {
       applyFilters();
     }
-    function applyFilters() {
-      const query = document.getElementById("searchInput").value.toLowerCase().trim();
-      const ist = getExactIST();
 
-      activelist = animeList.filter(anime => {
-        const matchesQuery = anime.title.toLowerCase().includes(query);
-        let matchesDay = true;
-
-        const status = getAnimeStatus(anime, ist);
-
-        if (status.state === "EXPIRED") return false;
-        if (currentSelectedDay !== "Upcoming" && status.state === "UPCOMING") return false;
-        if (currentSelectedDay !== "Completed" && status.state === "COMPLETED") return false;
-
-        if (currentSelectedDay === "Completed") {
-          return matchesQuery && (status.state === "COMPLETED");
-        }
-
-        if (currentSelectedDay === "Upcoming") {
-          return matchesQuery && (status.state === "UPCOMING");
-        }
-
-        if (currentSelectedDay !== "All") {
-          matchesDay = (anime.dayOfWeek === currentSelectedDay);
-        }
-
-        return matchesQuery && matchesDay;
-      });
-
-      const sectionTitle = document.getElementById("sectionTitle");
-      if (currentSelectedDay === "All") {
-        sectionTitle.textContent = "= All Ongoing Anime =";
-      } else {
-        sectionTitle.textContent = (currentSelectedDay === "Today")
-          ? `Today's Schedule (${currentSelectedDay}'s Schedule)`
-          : `${currentSelectedDay}'s Schedule`;
-      }
-
-      document.getElementById("itemCount").textContent = activelist.length;
-      renderCards();
-                                      }
-      
     function renderCards() {
       const container = document.getElementById("animeContainer");
       const emptyMsg = document.getElementById("emptyMessage");
@@ -853,7 +840,7 @@
       const ist = getExactIST();
 
       activeList.forEach(anime => {
-        const langBadges = anime.languages.map(l => 
+        const langBadges = (anime.languages || []).map(l => 
           `<span class="text-[11px] px-2.5 py-0.5 rounded-md font-medium ${l === 'Hindi' ? 'badge-hindi' : 'badge-lang'}">${l}</span>`
         ).join("");
 
@@ -946,29 +933,27 @@
       }
     }
 
-    // শুরুতে IST দিন স্বয়ংক্রিয়ভাবে শনাক্ত ও সিলেক্ট করা
     const initIST = getExactIST();
     selectDay(initIST.weekday);
 
-    // প্রতি সেকেন্ডে টাইমার অবিরাম চলবে
     setInterval(tick, 1000);
-      // Render Upcoming Anime Cards
-function renderUpcomingAnime() {
-    const container = document.getElementById("upcoming-anime-container");
-    if (!container) return;
-    container.innerHTML = "";
 
-    upcomingAnimeList.forEach((anime, idx) => {
-        const langTags = anime.languages.map(l => {
-            const isHindi = l.toLowerCase() === "hindi";
-            return `<span style="font-size: 11px; padding: 2px 7px; border-radius: 5px; ${isHindi ? 'background: #ca8a0422; color: #eab308; border: 1px solid #ca8a0488;' : 'background: #1e293b; color: #94a3b8; border: 1px solid #334155;'}">${l}</span>`;
+    function renderUpcomingAnime() {
+      const container = document.getElementById("upcoming-anime-container");
+      if (!container) return;
+      container.innerHTML = "";
+
+      upcomingAnimeList.forEach((anime, idx) => {
+        const langTags = (anime.languages || []).map(l => {
+          const isHindi = l.toLowerCase() === "hindi";
+          return `<span style="font-size: 11px; padding: 2px 7px; border-radius: 5px; ${isHindi ? 'background: #ca8a0422; color: #eab308; border: 1px solid #ca8a0488;' : 'background: #1e293b; color: #94a3b8; border: 1px solid #334155;'}">${l}</span>`;
         }).join(" ");
 
         let scheduleTags = "";
         if (anime.day) scheduleTags += `<span style="font-size: 12px; color: #60a5fa; background: #1e293b; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">📅 ${anime.day}</span> `;
         if (anime.time) scheduleTags += `<span style="font-size: 12px; color: #60a5fa; background: #1e293b; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">🕒 ${anime.time}</span> `;
         if (anime.displayDate) scheduleTags += `<div style="margin-top: 6px;"><span style="font-size: 12px; color: #facc15; background: #1e293b; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">🚀 ${anime.displayDate}</span></div>`;
-
+        
         let bottomModule = anime.releaseDateIST ? `
             <div style="background: #090e1a; border-radius: 12px; padding: 12px; text-align: center; margin-top: 14px;">
                 <div style="font-size: 11px; color: #64748b; font-weight: 700; letter-spacing: 0.8px; margin-bottom: 8px;">RELEASES IN</div>
@@ -1002,58 +987,51 @@ function renderUpcomingAnime() {
                 </div>
                 ${bottomModule}
             </div>`;
-    });
-}
+      });
+    }
 
-// Bulletproof IST Live Countdown Updater
-function startUpcomingTimers() {
-    function updateTimers() {
+    function startUpcomingTimers() {
+      function updateTimers() {
         const nowUTC = new Date().getTime();
         const istOffset = 5.5 * 60 * 60 * 1000;
         const nowIST = nowUTC + (new Date().getTimezoneOffset() * 60 * 1000) + istOffset;
 
         upcomingAnimeList.forEach((anime, idx) => {
-            if (!anime.releaseDateIST) return;
+          if (!anime.releaseDateIST) return;
 
-            const targetTime = new Date(anime.releaseDateIST).getTime();
-            const diff = targetTime - nowIST;
-            const timerElem = document.getElementById(`countdown-timer-${idx}`);
+          const targetTime = new Date(anime.releaseDateIST).getTime();
+          const diff = targetTime - nowIST;
+          const timerElem = document.getElementById(`countdown-timer-${idx}`);
 
-            if (!timerElem) return;
+          if (!timerElem) return;
 
-            if (diff <= 0) {
-                timerElem.parentElement.innerHTML = `<div style="color: #4ade80; font-weight: 600; padding: 8px;">Released / Airing Now</div>`;
-             // Episode +1
-anime.baseEp++;
+          if (diff <= 0) {
+            timerElem.parentElement.innerHTML = `<div style="color: #4ade80; font-weight: 600; padding: 8px;">Released / Airing Now</div>`;
+            return;
+          }
+          const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-// UI রিফ্রেশ
-renderUpcomingAnime();
-                return;
-            }
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
+          const dayBox = timerElem.querySelector('.num-days');
+          const hrBox = timerElem.querySelector('.num-hrs');
+          const minBox = timerElem.querySelector('.num-min');
+          const secBox = timerElem.querySelector('.num-sec');
 
-            const dayBox = timerElem.querySelector('.num-days');
-            const hrBox = timerElem.querySelector('.num-hrs');
-            const minBox = timerElem.querySelector('.num-min');
-            const secBox = timerElem.querySelector('.num-sec');
-
-            if (dayBox) dayBox.innerText = String(d).padStart(2, '0');
-            if (hrBox) hrBox.innerText = String(h).padStart(2, '0');
-            if (minBox) minBox.innerText = String(m).padStart(2, '0');
-            if (secBox) secBox.innerText = String(s).padStart(2, '0');
+          if (dayBox) dayBox.innerText = String(d).padStart(2, '0');
+          if (hrBox) hrBox.innerText = String(h).padStart(2, '0');
+          if (minBox) minBox.innerText = String(m).padStart(2, '0');
+          if (secBox) secBox.innerText = String(s).padStart(2, '0');
         });
+      }
+
+      updateTimers();
+      setInterval(updateTimers, 1000);
     }
 
-    updateTimers();
-    setInterval(updateTimers, 1000);
-}
-
-// Start Rendering & Countdown
-renderUpcomingAnime();
-startUpcomingTimers();
-</script>
+    renderUpcomingAnime();
+    startUpcomingTimers();
+  </script>
 </body>
 </html>
