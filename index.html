@@ -796,7 +796,48 @@
     function onSearchChange() {
       applyFilters();
     }
+    function applyFilters() {
+      const query = document.getElementById("searchInput").value.toLowerCase().trim();
+      const ist = getExactIST();
 
+      activelist = animeList.filter(anime => {
+        const matchesQuery = anime.title.toLowerCase().includes(query);
+        let matchesDay = true;
+
+        const status = getAnimeStatus(anime, ist);
+
+        if (status.state === "EXPIRED") return false;
+        if (currentSelectedDay !== "Upcoming" && status.state === "UPCOMING") return false;
+        if (currentSelectedDay !== "Completed" && status.state === "COMPLETED") return false;
+
+        if (currentSelectedDay === "Completed") {
+          return matchesQuery && (status.state === "COMPLETED");
+        }
+
+        if (currentSelectedDay === "Upcoming") {
+          return matchesQuery && (status.state === "UPCOMING");
+        }
+
+        if (currentSelectedDay !== "All") {
+          matchesDay = (anime.dayOfWeek === currentSelectedDay);
+        }
+
+        return matchesQuery && matchesDay;
+      });
+
+      const sectionTitle = document.getElementById("sectionTitle");
+      if (currentSelectedDay === "All") {
+        sectionTitle.textContent = "= All Ongoing Anime =";
+      } else {
+        sectionTitle.textContent = (currentSelectedDay === "Today")
+          ? `Today's Schedule (${currentSelectedDay}'s Schedule)`
+          : `${currentSelectedDay}'s Schedule`;
+      }
+
+      document.getElementById("itemCount").textContent = activelist.length;
+      renderCards();
+                                      }
+      
     function renderCards() {
       const container = document.getElementById("animeContainer");
       const emptyMsg = document.getElementById("emptyMessage");
